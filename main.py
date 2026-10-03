@@ -16,7 +16,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "Halo! Saya adalah bot Telegram SMPIT Pondok Duta 🤝") # Mengganti karakter emoji agar tidak menimbulkan masalah encoding
 
 
-async def penilaiankinerja(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def portalguru(update: Update, context: ContextTypes.DEFAULT_TYPE):
     # Perbaikan di sini: Menggunakan tiga tanda kutip ganda (""") untuk string multi-baris
     message = """📋 *PORTAL GURU*
 
@@ -69,7 +69,7 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     pesan_help = """➡️ *Perintah yang tersedia adalah:*
 
 /start - Ucapan Selamat Datang
-/penilaiankinerja - Link Penilaian Diktendik
+/portalguru - Link Portal Guru
 /passwordwifi - Password WiFi Sekolah
 /inventaris - Link Inventaris Sekolah
 /databasesekolah - Link Database Guru & Raport"""
@@ -79,7 +79,7 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
 # === Setup Bot ===
 app = ApplicationBuilder().token(TOKEN).build()
 app.add_handler(CommandHandler("start", start))
-app.add_handler(CommandHandler("penilaiankinerja", penilaiankinerja))
+app.add_handler(CommandHandler("portalguru", portalguru))
 app.add_handler(CommandHandler("passwordwifi", passwordwifi))
 app.add_handler(CommandHandler("inventaris", inventaris))
 app.add_handler(CommandHandler("databasesekolah", databasesekolah))
