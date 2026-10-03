@@ -18,7 +18,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def penilaiankinerja(update: Update, context: ContextTypes.DEFAULT_TYPE):
     # Perbaikan di sini: Menggunakan tiga tanda kutip ganda (""") untuk string multi-baris
-    message = """📋 *PENILAIAN KINERJA DIKTENDIK*
+    message = """📋 *PORTAL GURU*
 
 1. Portal Guru:
 https://guru.smpitpondokduta.sch.id/
