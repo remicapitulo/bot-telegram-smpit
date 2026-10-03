@@ -20,11 +20,11 @@ async def penilaiankinerja(update: Update, context: ContextTypes.DEFAULT_TYPE):
     # Perbaikan di sini: Menggunakan tiga tanda kutip ganda (""") untuk string multi-baris
     message = """📋 *PENILAIAN KINERJA DIKTENDIK*
 
-1. Penilaian Antar rekan:
-https://forms.gle/oWbXrJX3VncVWLDe9
-
-2. Laporan Update Eflyer Sosmed:
-https://forms.gle/5SeuC8XTp6SzWoBo9"""
+1. Portal Guru:
+https://guru.smpitpondokduta.sch.id/
+login menggunakan NIK Diktendik
+username: NIK Diktendik
+password: guru123"""
     await update.message.reply_text(message, parse_mode="Markdown")
 
 
