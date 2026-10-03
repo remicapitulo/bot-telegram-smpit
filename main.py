@@ -5,7 +5,7 @@ from flask import Flask
 from threading import Thread
 import os
 
-# === Load Token dari Environment (Secrets) ===
+# === Load Token dari Environment ===
 load_dotenv()
 TOKEN = os.getenv("BOT_TOKEN")
 
@@ -13,66 +13,65 @@ TOKEN = os.getenv("BOT_TOKEN")
 # === Command Bot ===
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
-        "Halo! Saya adalah bot Telegram SMPIT Pondok Duta 🤝") # Mengganti karakter emoji agar tidak menimbulkan masalah encoding
+        "Halo! Saya adalah bot Telegram SMPIT Pondok Duta 🤝"
+    )
 
 
 async def portalguru(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    # Perbaikan di sini: Menggunakan tiga tanda kutip ganda (""") untuk string multi-baris
-    message = """📋 *PORTAL GURU*
-
-1. Portal Guru:
-https://guru.smpitpondokduta.sch.id/
-login menggunakan NIK Diktendik
-username: NIK Diktendik
-password: guru123"""
+    message = (
+        "📋 *PORTAL GURU*\n\n"
+        "1. Portal Guru:\n"
+        "https://guru.smpitpondokduta.sch.id/\n"
+        "login menggunakan NIK Diktendik\n"
+        "username: NIK Diktendik\n"
+        "password: guru123"
+    )
     await update.message.reply_text(message, parse_mode="Markdown")
 
 
 async def passwordwifi(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    # Perbaikan di sini: Menggunakan tiga tanda kutip ganda (""") untuk string multi-baris
-    message = """💡 *PASSWORD WIFI SEKOLAH*
-
-*Lantai 1:*
-Nama WiFi: Lantai1 Ruang1 / Lantai1 Ruang2
-Password: `B4tuttaS1na`
-
-*Lantai 2:*
-Nama WiFi: Lantai2 Ruang1 / Lantai2 Ruang2 / LAB KOM
-Password: `Kh0ldunN4fis`
-
-*Lantai 3:*
-Nama WiFi: Lantai3 Ruang1 / Lantai3 Ruang2 / LAB IPA
-Password: `M4j4hRusdh`
-
-*Kantor TU:*
-`lagierror`
-
-*SMPIT PONDOK DUTA:*
-`l4girus4k`"""
+    message = (
+        "💡 *PASSWORD WIFI SEKOLAH*\n\n"
+        "*Lantai 1:*\n"
+        "Nama WiFi: Lantai1 Ruang1 / Lantai1 Ruang2\n"
+        "Password: `B4tuttaS1na`\n\n"
+        "*Lantai 2:*\n"
+        "Nama WiFi: Lantai2 Ruang1 / Lantai2 Ruang2 / LAB KOM\n"
+        "Password: `Kh0ldunN4fis`\n\n"
+        "*Lantai 3:*\n"
+        "Nama WiFi: Lantai3 Ruang1 / Lantai3 Ruang2 / LAB IPA\n"
+        "Password: `M4j4hRusdh`\n\n"
+        "*Kantor TU:*\n"
+        "`lagierror`\n\n"
+        "*SMPIT PONDOK DUTA:*\n"
+        "`l4girus4k`"
+    )
     await update.message.reply_text(message, parse_mode="Markdown")
 
 
 async def inventaris(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
-        "📊 *INVENTARIS SEKOLAH*\n\nhttps://inventaris.smpitpondokduta.sch.id/", # Menggunakan \n untuk baris baru
-        parse_mode="Markdown")
+        "📊 *INVENTARIS SEKOLAH*\n\nhttps://inventaris.smpitpondokduta.sch.id/",
+        parse_mode="Markdown",
+    )
 
 
 async def databasesekolah(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
-        "🗂️ *DATABASE SEKOLAH*\n\nhttps://drive.google.com/drive/folders/1BMQgUNBSbDlLw7TaEp-vdJNGW61y6nbI", # Menggunakan \n untuk baris baru
-        parse_mode="Markdown")
+        "🗂️ *DATABASE SEKOLAH*\n\nhttps://drive.google.com/drive/folders/1BMQgUNBSbDlLw7TaEp-vdJNGW61y6nbI",
+        parse_mode="Markdown",
+    )
 
 
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    # Perbaikan di sini: Menggunakan tiga tanda kutip ganda (""") untuk string multi-baris
-    pesan_help = """➡️ *Perintah yang tersedia adalah:*
-
-/start - Ucapan Selamat Datang
-/portalguru - Link Portal Guru
-/passwordwifi - Password WiFi Sekolah
-/inventaris - Link Inventaris Sekolah
-/databasesekolah - Link Database Guru & Raport"""
+    pesan_help = (
+        "➡️ *Perintah yang tersedia adalah:*\n\n"
+        "/start - Ucapan Selamat Datang\n"
+        "/portalguru - Link Portal Guru\n"
+        "/passwordwifi - Password WiFi Sekolah\n"
+        "/inventaris - Link Inventaris Sekolah\n"
+        "/databasesekolah - Link Database Guru & Raport"
+    )
     await update.message.reply_text(pesan_help, parse_mode="Markdown")
 
 
@@ -85,31 +84,25 @@ app.add_handler(CommandHandler("inventaris", inventaris))
 app.add_handler(CommandHandler("databasesekolah", databasesekolah))
 app.add_handler(CommandHandler("help", help_command))
 
-# === Flask (agar tetap hidup) ===
-flask_app = Flask('')
+# === Flask Server (Health Check untuk Koyeb) ===
+flask_app = Flask(__name__)
 
 
-@flask_app.route('/')
+@flask_app.route("/")
 def home():
-    return "Bot Telegram SMPIT Pondok Duta aktif!"
+    return "Bot Telegram SMPIT Pondok Duta aktif!", 200
 
 
 def run():
-    # Pastikan port yang digunakan adalah $PORT dari environment Koyeb
-    # atau port default yang diharapkan oleh Koyeb, misal 8080.
-    # Namun, karena ini adalah Thread terpisah, pastikan aplikasi utama tidak terblokir.
-    # Untuk Koyeb, seringkali disarankan untuk memiliki satu proses utama yang mendengarkan.
-    # Jika Anda menggunakan bot polling, Flask app ini berfungsi sebagai "keep-alive" saja.
-    port = int(os.environ.get("PORT", 8080)) # Ambil port dari variabel lingkungan PORT
-    flask_app.run(host='0.0.0.0', port=port)
+    # Gunakan default port 8000 sesuai setting forwarding di Koyeb
+    port = int(os.environ.get("PORT", 8000))
+    flask_app.run(host="0.0.0.0", port=port)
 
 
-Thread(target=run).start()
+# Jalankan Flask di background thread
+Thread(target=run, daemon=True).start()
 
-# === Jalankan Bot ===
-print("Bot sedang berjalan...")
-# Untuk deployment ke Koyeb, jika Anda menggunakan polling, pastikan ini tidak menghalangi Flask app.
-# Alternatif yang lebih umum untuk deployment adalah menggunakan webhook,
-# namun untuk kasus Anda yang saat ini menggunakan polling dan Flask sebagai keep-alive,
-# ini mungkin bisa berjalan.
-app.run_polling()
+# === Jalankan Polling Telegram ===
+if __name__ == "__main__":
+    print("Bot sedang berjalan...")
+    app.run_polling()
